@@ -3,7 +3,7 @@
 
   
 
-Input and Output extension for the strawberry framework
+Input and Output extension for the [strawberry framework](https://github.com/elderguardian/strawberry)
 
   
 
