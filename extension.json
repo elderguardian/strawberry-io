@@ -2,12 +2,5 @@
     "name": "strawberry-io",
     "git": {
         "repository": "https://github.com/elderguardian/strawberry-io.git"
-    },
-    "di-container": {
-        "mappings": [
-            "IRequest::class => Request::class,",
-            "IResponse::class => Response::class,",
-            "IFilter::class => ArgumentFilter::class,"
-        ]
     }
 }
