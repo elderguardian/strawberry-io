@@ -1,45 +1,31 @@
 
-# Strawberry IO
+# strawberry-io
 
-  
+Strawberry IO simplifies working with input and output in PHP web applications.
+It is intended to be used with [strawberry](https://github.com/elderguardian/strawberry), but you could easily use it in other frameworks.
 
-Input and Output extension for the [strawberry framework](https://github.com/elderguardian/strawberry)
+## Setup
 
-  
-
-## Installation
-
-  
+### Installation
 
 1. Download the repository or clone its content
+2. Move the `strawberry-io/` directory inside `src/` into the strawberry's `src/foundations`
 
-2. Create a folder called `io` inside the `src/foundations` of your strawberry application
+#### Mappings when using a di container
 
-3. Move the files inside the `src/` directory of strawberry-io into the new `io` directory.
+1. IRequest => Request
+2. IResponse => Response
 
-4. Add the DI Container mappings inside of `src/foundations/di-container/mappings.php`
-
-  
-
-```php
-<?php
-$mappings = [
-	...
-
-	IRequest::class  =>  Request::class,
-	IResponse::class  =>  Response::class,
-	IFilter::class  =>  ArgumentFilter::class,
-
-	...
-];
-
-```
-
-## Usage
+### Usage
 
 ```php
-public function world(IKernel $kernel) {
-	//Get library classes from di container
+public function world(IKernel $kernel /* When using strawberry-strawberry-di */) {
+
+    //create new instances of the library classes
+    $request = new Request();
+    $response = new Response();
+
+	//or get the library classes from strawberry-di container
 	$request = $kernel->get('IRequest');
 	$response = $kernel->get('IResponse');
 
@@ -62,22 +48,70 @@ public function world(IKernel $kernel) {
 }
 ```
 
-Interfaces:
-
+#### IResponse
 ```php
+/**
+ * Send json response
+ *
+ * @param array     $data          array containing json data
+ * @param int       $statusCode    status code to use, default is okay
+ *
+ */
+function json($data, int $statusCode = 202);
 
-//Output
-function json($data, int $statusCode =  202);
+/**
+ * Send json response and die afterwards
+ *
+ * @param array     $data          array containing json data
+ * @param int       $statusCode    status code to use, default is okay
+ *
+ */
 function jsond($data, int $statusCode =  202);
+
+/**
+ * Send errors using status code
+ *
+ * @param int       $statusCode    status code to use
+ *
+ */
 function error(int $statusCode);
-
-
-//Input
-function fetchRequestType();
-function fetchData();
-function fetch(string $paramName, $filter =  null);
-function fetchOrFail(string $paramName, $filter =  null);
-
-// Filters
-'integer'
 ```
+
+#### IRequest
+```php
+/**
+ * Returns request type (GET, POST...)
+ *
+ */
+function fetchRequestType();
+
+/**
+ * Returns fetched data from request
+ *
+ * @return array
+ */
+function fetchData();
+
+/**
+ * Fetches data from parameter name, can be filtered
+ *
+ * @param array     $paramName      name or parameter
+ * @param int       $filter         filter to use, defaults to null
+ *
+ * @return mixed
+ */
+function fetch(string $paramName, $filter =  null);
+
+/**
+ * Fetches data from parameter name, can be filtered and throws exception on fail
+ *
+ * @param array     $paramName      name or parameter
+ * @param int       $filter         filter to use, defaults to null
+ *
+ * @return mixed
+ */
+function fetchOrFail(string $paramName, $filter =  null);
+```
+
+##### Available filters for fetch
+1. `integer`
