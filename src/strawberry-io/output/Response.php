@@ -15,7 +15,7 @@ class Response implements IResponse
     ];
 
 
-    function json($data, int $statusCode = 202) : void
+    function json($data, int $statusCode = 202): void
     {
         header('Content-Type: application/json; charset=utf-8');
         http_response_code($statusCode);
@@ -23,13 +23,13 @@ class Response implements IResponse
     }
 
 
-    function jsond($data, int $statusCode = 202) : void
+    function jsond($data, int $statusCode = 202): void
     {
         self::json($data, $statusCode);
         die();
     }
 
-    public function error(int $statusCode) : void
+    public function error(int $statusCode): void
     {
         http_response_code($statusCode);
 
