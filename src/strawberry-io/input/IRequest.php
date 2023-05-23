@@ -8,5 +8,5 @@ interface IRequest
 
     function fetch(string $paramName, $filter = null);
 
-    function fetchOrFail(string $paramName, $filter = null);
+    function fetchOrNull(string $paramName, $filter = null);
 }
