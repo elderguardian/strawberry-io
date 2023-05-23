@@ -27,6 +27,7 @@ class Request implements IRequest
     {
         return match ($this->requestType) {
             "GET" => $_GET,
+            "POST" => $_POST,
             default => throw new Exception("Unsupported request type!"),
         };
     }
