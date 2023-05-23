@@ -3,18 +3,6 @@
 class Response implements IResponse
 {
 
-    private array $statusCodeMeanings = [
-        200 => "OK",
-        400 => "Bad Request",
-        403 => "Forbidden",
-        422 => "Unprocessable Entity",
-        429 => "Resource Exhausted",
-        500 => "Internal Server Error",
-        503 => "Service Unavailable",
-        504 => "Gateway Timeout",
-    ];
-
-
     function json($data, int $statusCode = 202): void
     {
         header('Content-Type: application/json; charset=utf-8');
@@ -29,14 +17,4 @@ class Response implements IResponse
         die();
     }
 
-    public function error(int $statusCode): void
-    {
-        http_response_code($statusCode);
-
-        $message = $this->statusCodeMeanings[$statusCode] ?? `Unknown Error $statusCode!`;
-
-        self::jsond([
-            'message' => $message,
-        ], $statusCode);
-    }
 }
