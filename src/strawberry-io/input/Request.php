@@ -49,7 +49,7 @@ class Request implements IRequest
     {
 
         if (!array_key_exists($paramName, $this->data))
-            throw new Exception();
+            throw new Exception("Requested parameter has not been set.");
 
         $value = $this->data[$paramName];
 
