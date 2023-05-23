@@ -25,25 +25,25 @@ public function world(IKernel $kernel /* When using strawberry-strawberry-di */)
     $request = new Request();
     $response = new Response();
 
-	//or get the library classes from strawberry-di container
-	$request = $kernel->get('IRequest');
-	$response = $kernel->get('IResponse');
+    //or get the library classes from strawberry-di container
+    $request = $kernel->get('IRequest');
+    $response = $kernel->get('IResponse');
 
-	//Take parameter num with filter integer
-	//To take strings, remove the second argument (filter)
-	$number = $request->fetch('num', 'integer');
+    //Take parameter num with filter integer
+    //To take strings, remove the second argument (filter)
+    $number = $request->fetch('num', 'integer');
 
-	if ($number ==  null) {
-		//Send json response, die (jsond) and set status to 400
-		$response->jsond([
-			'message'  =>  'Please add a a num parameter containing a valid number!'
-		], 400);
-	}
+    if ($number ==  null) {
+        //Send json response, die (jsond) and set status to 400
+        $response->jsond([
+            'message'  =>  'Please add a a num parameter containing a valid number!'
+        ], 400);
+    }
 
-	//Send a json response without dying containing the input
-	$response->json([
-		'message'  =>  "You gave us $number"
-	]);
+    //Send a json response without dying containing the input
+    $response->json([
+        'message'  =>  "You gave us $number"
+    ]);
 
 }
 ```
@@ -67,14 +67,6 @@ function json($data, int $statusCode = 202);
  *
  */
 function jsond($data, int $statusCode =  202);
-
-/**
- * Send errors using status code
- *
- * @param int       $statusCode    status code to use
- *
- */
-function error(int $statusCode);
 ```
 
 #### IRequest
@@ -93,7 +85,7 @@ function fetchRequestType();
 function fetchData();
 
 /**
- * Fetches data from parameter name, can be filtered
+ * Fetches data from parameter name, can be filtered and throws exception on fail
  *
  * @param array     $paramName      name or parameter
  * @param int       $filter         filter to use, defaults to null
@@ -103,14 +95,14 @@ function fetchData();
 function fetch(string $paramName, $filter =  null);
 
 /**
- * Fetches data from parameter name, can be filtered and throws exception on fail
+ * Fetches data from parameter name, can be filtered, returns null on fail
  *
  * @param array     $paramName      name or parameter
  * @param int       $filter         filter to use, defaults to null
  *
  * @return mixed
  */
-function fetchOrFail(string $paramName, $filter =  null);
+function fetchOrNull(string $paramName, $filter =  null);
 ```
 
 ##### Available filters for fetch
